@@ -387,6 +387,7 @@ private:
 	void sendStats();
 	void sendBasicData();
 	void sendTextMessage(const TextMessage &message);
+	void sendExtendedOpcode(uint8_t opcode, const std::string &buffer);
 	bool sendCipsoft860SpecialTextMessage(const TextMessage &message, MessageClasses internalType);
 	void sendReLoginWindow(uint8_t unfairFightReduction);
 

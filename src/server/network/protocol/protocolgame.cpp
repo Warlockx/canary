@@ -10733,6 +10733,19 @@ void ProtocolGame::sendOTCRFeatures() {
 	writeToOutputBuffer(msg);
 }
 
+// otclient extended opcode (mirrors parseExtendedOpcode): raw opcode +
+// string payload, only to clients that negotiated the OTClient handshake
+void ProtocolGame::sendExtendedOpcode(uint8_t opcode, const std::string &buffer) {
+	if (!isOTC) {
+		return;
+	}
+	NetworkMessage msg;
+	msg.addByte(0x32);
+	msg.addByte(opcode);
+	msg.addString(buffer);
+	writeToOutputBuffer(msg);
+}
+
 void ProtocolGame::parseInventoryImbuements(NetworkMessage &msg) {
 	if (oldProtocol) {
 		return;

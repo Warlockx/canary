@@ -1099,6 +1099,7 @@ public:
 	void sendSkills() const;
 	void sendTextMessage(MessageClasses mclass, const std::string &message) const;
 	void sendTextMessage(const TextMessage &message) const;
+	void sendExtendedOpcode(uint8_t opcode, const std::string &buffer) const;
 	void sendReLoginWindow(uint8_t unfairFightReduction) const;
 	void sendTextWindow(const std::shared_ptr<Item> &item, uint16_t maxlen, bool canWrite) const;
 	void sendToChannel(const std::shared_ptr<Creature> &creature, SpeakClasses type, const std::string &text, uint16_t channelId) const;

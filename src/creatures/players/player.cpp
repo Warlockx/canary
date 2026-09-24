@@ -2381,6 +2381,12 @@ void Player::sendTextMessage(const TextMessage &message) const {
 	}
 }
 
+void Player::sendExtendedOpcode(uint8_t opcode, const std::string &buffer) const {
+	if (client) {
+		client->sendExtendedOpcode(opcode, buffer);
+	}
+}
+
 void Player::sendReLoginWindow(uint8_t unfairFightReduction) const {
 	if (client) {
 		client->sendReLoginWindow(unfairFightReduction);

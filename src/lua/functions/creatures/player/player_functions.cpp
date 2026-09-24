@@ -289,6 +289,7 @@ void PlayerFunctions::init(lua_State* L) {
 	Lua::registerMethod(L, "Player", "showTextDialog", PlayerFunctions::luaPlayerShowTextDialog);
 
 	Lua::registerMethod(L, "Player", "sendTextMessage", PlayerFunctions::luaPlayerSendTextMessage);
+	Lua::registerMethod(L, "Player", "sendExtendedOpcode", PlayerFunctions::luaPlayerSendExtendedOpcode);
 	Lua::registerMethod(L, "Player", "sendChannelMessage", PlayerFunctions::luaPlayerSendChannelMessage);
 	Lua::registerMethod(L, "Player", "sendPrivateMessage", PlayerFunctions::luaPlayerSendPrivateMessage);
 	Lua::registerMethod(L, "Player", "channelSay", PlayerFunctions::luaPlayerChannelSay);
@@ -2773,7 +2774,21 @@ int PlayerFunctions::luaPlayerSendTextMessage(lua_State* L) {
 
 	player->sendTextMessage(message);
 	Lua::pushBoolean(L, true);
+	return 1;
+}
 
+int PlayerFunctions::luaPlayerSendExtendedOpcode(lua_State* L) {
+	// player:sendExtendedOpcode(opcode, buffer)
+	const auto &player = Lua::getUserdataShared<Player>(L, 1, "Player");
+	if (!player) {
+		lua_pushnil(L);
+		return 1;
+	}
+
+	const auto opcode = Lua::getNumber<uint8_t>(L, 2);
+	const auto &buffer = Lua::getString(L, 3);
+	player->sendExtendedOpcode(opcode, buffer);
+	Lua::pushBoolean(L, true);
 	return 1;
 }
 
