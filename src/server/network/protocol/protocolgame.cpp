@@ -3539,6 +3539,10 @@ void ProtocolGame::parseBestiarysendMonsterData(NetworkMessage &msg) {
 
 	uint32_t killCounter = player->getBestiaryKillCount(raceId);
 	uint8_t currentLevel = g_iobestiary().getKillStatus(mtype, killCounter);
+	// koliseu: bestiary fully unlocked — stats/elements/loot go on the wire
+	// for everyone (client hides them below these levels by protocol)
+	currentLevel = 4;
+	killCounter = std::max<uint32_t>(killCounter, mtype->info.bestiaryToUnlock);
 
 	NetworkMessage newmsg;
 	newmsg.addByte(0xD7);
@@ -4213,7 +4217,7 @@ void ProtocolGame::parseBestiarySendCreatures(NetworkMessage &msg) {
 				if (!tmpType) {
 					return;
 				}
-				progress = g_iobestiary().getKillStatus(tmpType, _it.second);
+				progress = 4; // koliseu: bestiary fully unlocked (list rows)
 				occurrence = tmpType->info.bestiaryOccurrence;
 			}
 		}
